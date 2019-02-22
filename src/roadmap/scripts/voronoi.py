@@ -22,29 +22,34 @@ def voronoi(g, w, h):
 		botMid = i+w
 		#botRight = i+w+1
 
+		if(g.grid.data[mid] != 100):
+			localMax = True
+			currentNode = g.grid.data[i]
+			if(topMid > 0 and topMid < (h*w)-1 and g.grid.data[topMid]>currentNode and g.grid.data[topMid]!= 100):
+				localMax = False
+			if(left > 0 and left < (h*w)-1 and g.grid.data[left]>currentNode and g.grid.data[left]!= 100):
+				localMax = False
+			if(right > 0 and right < (h*w)-1 and g.grid.data[right]>currentNode and g.grid.data[right]!= 100):
+				localMax = False
+			if(botMid > 0 and botMid < (h*w)-1 and g.grid.data[botMid]>currentNode and g.grid.data[botMid]!= 100):
+				localMax = False
 
-		localMax = True
-		if(topMid > 0 and topMid < (h*w)-1 and g.grid.data[topMid]>localMax and g.grid.data[topMid]!= 100):
-			localMax = False
-		if(left > 0 and left < (h*w)-1 and g.grid.data[left]>localMax and g.grid.data[left]!= 100):
-			localMax = False
-		if(right > 0 and right < (h*w)-1 and g.grid.data[right]>localMax and g.grid.data[right]!= 100):
-			localMax = False
-		if(botMid > 0 and botMid < (h*w)-1 and g.grid.data[botMid]>localMax and g.grid.data[botMid]!= 100):
-			localMax = False
-
-		if(localMax == True):
-			g.grid.data = list(g.grid.data)
-			if(topMid > 0):
-				g.grid.data[topMid] = 0
-			if(left > 0):
-				g.grid.data[left] = 0
-			if(right < (w*h -1)):
-				g.grid.data[right] = 0
-			if(botMid < (w*h -1)):
-				g.grid.data[botMid] = 0
-			g.grid.data[mid] = 127
-			g.grid.data = tuple(g.grid.data)
+			if(localMax == True):
+				g.grid.data = list(g.grid.data)
+				# if(topMid > 0):
+				# 	g.grid.data[topMid] = 0
+				# if(left > 0):
+				# 	g.grid.data[left] = 0
+				# if(right < (w*h -1)):
+				# 	g.grid.data[right] = 0
+				# if(botMid < (w*h -1)):
+				# 	g.grid.data[botMid] = 0
+				# g.grid.data[mid] = 127
+				g.grid.data = tuple(g.grid.data)
+			else:
+				g.grid.data = list(g.grid.data)
+				g.grid.data[mid] = 0
+				g.grid.data = tuple(g.grid.data)
 		else:
 			g.grid.data = list(g.grid.data)
 			g.grid.data[mid] = 0
