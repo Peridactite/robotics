@@ -24,13 +24,13 @@ def voronoi(g, w, h):
 
 
 		localMax = True
-		if(topMid > 0 and topMid < (h*w)-1 and g.grid.data[topMid]>localMax):
+		if(topMid > 0 and topMid < (h*w)-1 and g.grid.data[topMid]>localMax and g.grid.data[topMid]!= 100):
 			localMax = False
-		if(left > 0 and left < (h*w)-1 and g.grid.data[left]>localMax):
+		if(left > 0 and left < (h*w)-1 and g.grid.data[left]>localMax and g.grid.data[left]!= 100):
 			localMax = False
-		if(right > 0 and right < (h*w)-1 and g.grid.data[right]>localMax):
+		if(right > 0 and right < (h*w)-1 and g.grid.data[right]>localMax and g.grid.data[right]!= 100):
 			localMax = False
-		if(botMid > 0 and botMid < (h*w)-1 and g.grid.data[botMid]>localMax):
+		if(botMid > 0 and botMid < (h*w)-1 and g.grid.data[botMid]>localMax and g.grid.data[botMid]!= 100):
 			localMax = False
 
 		if(localMax == True):
