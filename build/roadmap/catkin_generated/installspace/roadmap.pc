@@ -1,0 +1,8 @@
+prefix=/home/turtlebot/catkin_ws/install
+
+Name: roadmap
+Description: Description of roadmap
+Version: 0.0.0
+Cflags: -I/home/turtlebot/catkin_ws/install/include
+Libs: -L/home/turtlebot/catkin_ws/install/lib 
+Requires: nav_msgs message_runtime
