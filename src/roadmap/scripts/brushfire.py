@@ -41,13 +41,13 @@ def brushfire(g,w,h):
 	#right side
 	for i in range(0,h):
 		g.grid.data = list(g.grid.data)
-		g.grid.data[i*w] = 1
+		g.grid.data[(i*w)-1] = 1
 		g.grid.data = tuple(g.grid.data)
 
 	#left side
-	for i in range(h,h - 1):
+	for i in range(0, h):
 		g.grid.data = list(g.grid.data)
-		g.grid.data[i*w -w] = 1
+		g.grid.data[i*w] = 1
 		g.grid.data = tuple(g.grid.data)
 
 	#FIRST PASS AS 100
@@ -62,15 +62,22 @@ def brushfire(g,w,h):
 		for i in range(0, (w*h -1)):
 			if (g.grid.data[i]==num):
 				foundNum = True
-				print("i matched num")
-				print("i")
-				print(i)
-				print(num)
+				#print("i matched num")
+				#print("i")
+				#print(i)
+				#print(num)
 				setNeighbors(g, w, h, i, num+1)
 		num+=1
+	line = "";
+	for i in range(0, w*h):
+		line = line + (str(g.grid.data[i]) + ", ")
+		if((i%100)==1):
+			continue
+			#print(line)
 	pub.publish(g.grid)
 
 	rospy.sleep(0.5)
+	prettyOut(g.grid.data, w)
 	pub_info.publish(g)
 
 def setNeighbors(g, w, h, i, num):
@@ -135,7 +142,18 @@ def main():
 
 	rospy.spin()
 	
-	
+
+def prettyOut(arr, width):
+	sOut = ""
+	for i in range(len(arr)):
+		if (arr[1] == 100):
+			sOut += "99 "
+		else:
+ 			sOut += str(arr[i]).zfill(2) + " ";
+		if (i % width == width -1):
+			print(sOut)
+			sOut = ""
+
 if __name__ == '__main__':
 	print "Starting up..."
 	main()

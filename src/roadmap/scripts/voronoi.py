@@ -11,11 +11,15 @@ pub = rospy.Publisher('/voronoi_map', OccupancyGrid, queue_size=10)
 
 def voronoi(g, w, h):
 	global pub
+	voronoiGrid = OccupancyGrid()
+	voronoiGrid.info.height = h
+	voronoiGrid.info.width = w
+	voronoiGrid.info.resolution = g.grid.info.resolution
 	for i in range (0,(w*h)):
 		#topLeft = i-w-1
 		topMid = i-w
 		#topRight = i-w+1
-		left = i-w
+		left = i-1
 		mid = i
 		right = i+1
 		#botLeft = i+w-1
@@ -25,39 +29,41 @@ def voronoi(g, w, h):
 		if(g.grid.data[mid] != 100):
 			localMax = True
 			currentNode = g.grid.data[i]
-			if(topMid > 0 and topMid < (h*w)-1 and g.grid.data[topMid]>currentNode and g.grid.data[topMid]!= 100):
+			if(topMid >= 0 and topMid < (h*w)-1 and g.grid.data[topMid]>currentNode ):
 				localMax = False
-			if(left > 0 and left < (h*w)-1 and g.grid.data[left]>currentNode and g.grid.data[left]!= 100):
+			if(left >= 0 and left < (h*w)-1 and g.grid.data[left]>currentNode ):
 				localMax = False
-			if(right > 0 and right < (h*w)-1 and g.grid.data[right]>currentNode and g.grid.data[right]!= 100):
+
+			#work
+			if(right >= 0 and right < (h*w)-1 and g.grid.data[right]>currentNode ):
 				localMax = False
-			if(botMid > 0 and botMid < (h*w)-1 and g.grid.data[botMid]>currentNode and g.grid.data[botMid]!= 100):
+			if(botMid >= 0 and botMid < (h*w)-1 and g.grid.data[botMid]>currentNode):
 				localMax = False
 
 			if(localMax == True):
-				g.grid.data = list(g.grid.data)
+				voronoiGrid.data = list(voronoiGrid.data)
 				# if(topMid > 0):
-				# 	g.grid.data[topMid] = 0
+				# 	voronoiGrid.grid.data[topMid] = 0
 				# if(left > 0):
-				# 	g.grid.data[left] = 0
+				# 	voronoiGrid.grid.data[left] = 0
 				# if(right < (w*h -1)):
-				# 	g.grid.data[right] = 0
+				# 	voronoiGrid.grid.data[right] = 0
 				# if(botMid < (w*h -1)):
-				# 	g.grid.data[botMid] = 0
-				# g.grid.data[mid] = 127
-				g.grid.data = tuple(g.grid.data)
+				# 	voronoiGrid.grid.data[botMid] = 0
+				voronoiGrid.data[mid] = 127
+				voronoiGrid.data = tuple(voronoiGrid.data)
 			else:
-				g.grid.data = list(g.grid.data)
-				g.grid.data[mid] = 0
-				g.grid.data = tuple(g.grid.data)
+				voronoiGrid.data = list(voronoiGrid.data)
+				voronoiGrid.data[mid] = 0
+				voronoiGrid.data = tuple(voronoiGrid.data)
 		else:
-			g.grid.data = list(g.grid.data)
-			g.grid.data[mid] = 0
-			g.grid.data = tuple(g.grid.data)
+			voronoiGrid.data = list(voronoiGrid.data)
+			voronoiGrid.data[mid] = 0
+			voronoiGrid.data = tuple(voronoiGrid.data)
 
 
 	print("Attempt Publish")
-	pub.publish(g.grid)
+	pub.publish(voronoiGrid)
 	print("Published/??????")
 
 
