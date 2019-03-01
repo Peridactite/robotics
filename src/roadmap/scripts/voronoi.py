@@ -15,6 +15,12 @@ def voronoi(g, w, h):
 	voronoiGrid.info.height = h
 	voronoiGrid.info.width = w
 	voronoiGrid.info.resolution = g.grid.info.resolution
+
+	for r in range(0,h):
+		for c in range(0,w):
+			empty = 0 
+			voronoiGrid.data.append(empty)
+
 	for i in range (0,(w*h)):
 		#topLeft = i-w-1
 		topMid = i-w
@@ -26,7 +32,7 @@ def voronoi(g, w, h):
 		botMid = i+w
 		#botRight = i+w+1
 
-		if(g.grid.data[mid] != 100):
+		if(g.grid.data[mid] != 100 and g.grid.data[mid] != 1):
 			localMax = True
 			currentNode = g.grid.data[i]
 			if(topMid >= 0 and topMid < (h*w)-1 and g.grid.data[topMid]>currentNode ):
@@ -42,6 +48,7 @@ def voronoi(g, w, h):
 
 			if(localMax == True):
 				voronoiGrid.data = list(voronoiGrid.data)
+
 				# if(topMid > 0):
 				# 	voronoiGrid.grid.data[topMid] = 0
 				# if(left > 0):
@@ -50,15 +57,22 @@ def voronoi(g, w, h):
 				# 	voronoiGrid.grid.data[right] = 0
 				# if(botMid < (w*h -1)):
 				# 	voronoiGrid.grid.data[botMid] = 0
+				print("I am " + str(g.grid.data[mid]) + " at " + str(mid))
+				print(g.grid.data[topMid])
+				print(g.grid.data[right])
+				print(g.grid.data[botMid])
+				print(g.grid.data[left])
 				voronoiGrid.data[mid] = 127
 				voronoiGrid.data = tuple(voronoiGrid.data)
 			else:
 				voronoiGrid.data = list(voronoiGrid.data)
+				print("MIN AT " + str(mid))
 				voronoiGrid.data[mid] = 0
 				voronoiGrid.data = tuple(voronoiGrid.data)
 		else:
 			voronoiGrid.data = list(voronoiGrid.data)
-			voronoiGrid.data[mid] = 0
+			print("MIN AT " + str(mid))
+			voronoiGrid.data[mid]=0
 			voronoiGrid.data = tuple(voronoiGrid.data)
 
 
